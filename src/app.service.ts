@@ -6,6 +6,6 @@ export class AppService {
     return 'Hello World!';
   }
   api(): object {
-    return { name: 'Riotly Happy Hour' };
+    return { name: 'Riotly Happy Hour!' };
   }
 }
