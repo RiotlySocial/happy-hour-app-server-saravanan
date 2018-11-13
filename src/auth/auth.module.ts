@@ -11,13 +11,13 @@ import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
-    // PassportModule.register({ defaultStrategy: 'bearer' }),
-    // JwtModule.register({
-    //   secretOrPrivateKey: 'secretKey',
-    //   signOptions: {
-    //     expiresIn: 3600,
-    //   },
-    // }),
+    PassportModule.register({ defaultStrategy: 'bearer' }),
+    JwtModule.register({
+      secretOrPrivateKey: 'VERY_SECRET_KEY',
+      signOptions: {
+        expiresIn: 3600,
+      },
+    }),
     UsersModule
   ],
   controllers: [AuthController],

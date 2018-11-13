@@ -7,7 +7,7 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r dotenv/config  src/main.ts",
-    "start:dev": "nodemon",
+    "start:dev": "npm run start:mongo && nodemon",
     "start:debug": "npm run start:mongo && nodemon --config nodemon-debug.json",
     "start:mongo": "mkdir -p mongo/db && lsof -i TCP:27017 | grep LISTEN | awk '{print $2}' | xargs kill -9 && mongod --dbpath ./mongo/db  --fork --logpath ./mongo/mongod.log",
     "prestart:prod": "rimraf dist && tsc",
