@@ -8,8 +8,8 @@ import { AuthGuard } from '@nestjs/passport';
 export class TableController {
     constructor(private readonly tableService: TableService) {}
 
-    @Get()
-    @UseGuards(AuthGuard())
+    @Get('all')
+    @UseGuards(AuthGuard('jwt'))
     root() {
         return this.tableService.findAll();
     }

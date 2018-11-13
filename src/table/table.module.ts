@@ -7,7 +7,7 @@ import { TableMiddleware } from './table.middleware';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [/*PassportModule.register({ defaultStrategy: 'bearer' }),*/MongooseModule.forFeature([{ name: 'Table', schema: TableSchema }])],
+  imports: [MongooseModule.forFeature([{ name: 'Table', schema: TableSchema }])],
   controllers: [TableController],
   providers: [TableService],
 })
