@@ -11,7 +11,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
         super({
             clientID: '962349895975-qlf2jdmdsl9n4m1mmta8b9i40f0igrnp.apps.googleusercontent.com',
             clientSecret: '7NXnVvxMHJwAArBnx5HGIJvC',
-            callbackURL: 'http://localhost:3001/api/auth/google/callback',
+            callbackURL: 'https://app-happyhour-riotly.herokuapp.com/api/auth/google/callback',
             passReqToCallback: true,
             scope: ['profile']
         })
