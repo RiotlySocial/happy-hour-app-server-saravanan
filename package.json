@@ -30,6 +30,7 @@
     "dotenv": "^6.1.0",
     "google-auth-library": "^2.0.1",
     "googleapis": "^35.0.0",
+    "immutable": "^4.0.0-rc.12",
     "joi": "^14.0.4",
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
