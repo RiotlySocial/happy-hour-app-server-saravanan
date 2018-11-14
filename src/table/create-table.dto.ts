@@ -1,3 +1,6 @@
+import { Map } from 'immutable';
+
 export class CreateTableDto {
-    readonly title: string;
+    readonly members: [String];
+    readonly position: number;
   }

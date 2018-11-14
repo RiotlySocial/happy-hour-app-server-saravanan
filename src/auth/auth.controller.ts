@@ -41,9 +41,7 @@ export class AuthController {
     @UseGuards(AuthGuard('jwt'))
     logout(@Req() req, @Res() res)
     {
-        console.log(req.user);
         req.logout();
-        console.log(req.user);
         res.json({loggedOut: true});
     }
 }

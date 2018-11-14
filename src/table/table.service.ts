@@ -10,13 +10,17 @@ export class TableService {
 
   async create(createTableDto: CreateTableDto): Promise<Table> {
     const createdTable = new this.tableModel(createTableDto);
-    return await createdTable.save();
+    const doc = await createdTable.save();
+    return doc.populate('members').execPopulate();
   }
 
   async findAll(): Promise<Table[]> {
-    return await this.tableModel.find().exec();
+    return await this.tableModel.find().populate('members').exec();
   }
-  async findById(id:string): Promise<Table> {
-    return await this.tableModel.findOne({'_id': id}).exec();
+  async findByIdAndUpdateMember(id:string, member:string): Promise<Table> {
+    return await this.tableModel.findOneAndUpdate({'_id': id}, { "$addToSet": { members: member } }, {new: true}).populate('members').exec();
+  }
+  async removeMemberFromTable(userId, tableId): Promise<Table> {
+    return await this.tableModel.update({'_id': tableId}, {$pull: { 'members': userId }}).exec();
   }
 }

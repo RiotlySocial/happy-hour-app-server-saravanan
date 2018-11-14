@@ -33,8 +33,8 @@ export class AuthService {
             const user = await this.usersService.create({
               first_name: profile.name.givenName,
               last_name: profile.name.familyName,
-              email: profile.emails[0].value,
-              avatar: profile.photos[0].value,
+              email: (profile.emails && profile.emails[0].value),
+              avatar: (profile.photos && profile.photos[0].value),
               gender: profile.gender,
               uid: profile.id,
               provider: provider
