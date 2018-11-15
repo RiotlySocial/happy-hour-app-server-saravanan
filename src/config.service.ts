@@ -30,6 +30,7 @@ export class ConfigService {
       PORT: Joi.number().default(3001),
       DB_URI: Joi.string().required(),
       FE_URL: Joi.string().required(),
+      APP_URL: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = Joi.validate(

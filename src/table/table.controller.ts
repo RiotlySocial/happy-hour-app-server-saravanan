@@ -4,10 +4,12 @@ import { TableService } from './table.service';
 import { Table } from './table.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { Map, fromJS } from 'immutable';
+import { UsersService } from '../users/users.service';
 
 @Controller('table')
 export class TableController {
-    constructor(private readonly tableService: TableService) {}
+    constructor(private readonly tableService: TableService,
+      private readonly usersService: UsersService) {}
 
     /**
      * - all tables - NEW
@@ -49,5 +51,19 @@ export class TableController {
         const user = req.user;
         const response = await this.tableService.removeMemberFromTable(user._id, tableId);
         res.json(response);
+    }
+
+    @Get('search/:search')
+    @UseGuards(AuthGuard('jwt'))
+    async searchUser(@Req() req, @Res() res, @Param('search') searchQuery) {
+      // Get users matching search query
+      let users = await this.usersService.search(searchQuery);
+      //Get only _ids
+      const userIds = users.map(user => {
+        return user._id;
+      })
+      // Find table in which user is in
+      let table = await this.tableService.searchByMembers(userIds);
+      res.json(table);
     }
 }

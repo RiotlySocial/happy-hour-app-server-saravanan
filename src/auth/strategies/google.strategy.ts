@@ -2,16 +2,17 @@ import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-google-oauth20";
 import { AuthService, Provider } from "../auth.service";
+import { ConfigService } from "../../config.service";
 
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google')
 {
-    constructor(private readonly authService: AuthService) {
+    constructor(private readonly authService: AuthService, private readonly configService: ConfigService) {
         super({
             clientID: '962349895975-qlf2jdmdsl9n4m1mmta8b9i40f0igrnp.apps.googleusercontent.com',
             clientSecret: '7NXnVvxMHJwAArBnx5HGIJvC',
-            callbackURL: 'https://app-happyhour-riotly.herokuapp.com/api/auth/google/callback',
+            callbackURL: `${configService.get('APP_URL')}api/auth/google/callback`,
             passReqToCallback: true,
             scope: ['profile']
         })

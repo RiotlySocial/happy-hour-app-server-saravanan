@@ -5,11 +5,13 @@ import { TableService } from './table.service';
 import { TableSchema } from './table.schema';
 import { TableMiddleware } from './table.middleware';
 import { PassportModule } from '@nestjs/passport';
+import { UsersService } from '../users/users.service';
+import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'Table', schema: TableSchema }])],
+  imports: [MongooseModule.forFeature([{ name: 'Table', schema: TableSchema }]), UsersModule],
   controllers: [TableController],
-  providers: [TableService],
+  providers: [UsersService, TableService],
 })
 export class TableModule implements NestModule{
   configure(consumer: MiddlewareConsumer){
