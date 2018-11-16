@@ -23,18 +23,6 @@ export class AuthController {
             res.redirect(`${this.configService.get('FE_URL')}?token=${jwt}`);
         else 
             res.redirect(`${this.configService.get('FE_URL')}?err`);
-
-        //     if (jwt)
-        //     res.redirect('http://localhost:3000/?token=' + jwt);
-        // else 
-        //     res.redirect('http://localhost:3000/?err');
-    }
-    
-    @Get('protected')
-    @UseGuards(AuthGuard('jwt'))
-    protectedResource()
-    {
-        return {name: 'prot2'};
     }
 
     @Get('logout')

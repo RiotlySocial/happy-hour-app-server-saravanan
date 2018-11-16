@@ -12,15 +12,6 @@ export class TableController {
     constructor(private readonly tableService: TableService,
       private readonly usersService: UsersService) {}
 
-    /**
-     * - all tables - NEW
-     * - first user goes into table - create table with member and position
-     * - leave table - remove member
-     * - check if only 8 tables and only 4 members
-     * - websoctets or polling?
-     * - another user - update table
-     * - handle jwt expired case
-     */
     @Get('all')
     @UseGuards(AuthGuard('jwt'))
     root() {

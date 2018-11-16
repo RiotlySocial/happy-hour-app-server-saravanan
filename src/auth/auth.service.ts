@@ -2,7 +2,6 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
-import { sign } from 'jsonwebtoken';
 export enum Provider
 {
     GOOGLE = 'google'
@@ -11,7 +10,7 @@ export enum Provider
 @Injectable()
 export class AuthService {
   private readonly JWT_SECRET_KEY = 'VERY_SECRET_KEY'; // <- replace this with your secret key
-  constructor(/*private readonly jwtService: JwtService,*/ private readonly usersService: UsersService) {}
+  constructor(private readonly jwtService: JwtService, private readonly usersService: UsersService) {}
   // async createToken() {
   //   const user: JwtPayload = { email: 'test@email.com' };
   //   const accessToken = this.jwtService.sign(user);
@@ -24,12 +23,6 @@ export class AuthService {
     {
         try 
         {
-            // You can add some registration logic here, 
-            // to register the user using their thirdPartyId (in this case their googleId)
-            // let user: IUser = await this.usersService.findOneByThirdPartyId(thirdPartyId, provider);
-            
-            // if (!user)
-                // user = await this.usersService.registerOAuthUser(thirdPartyId, provider);
             const user = await this.usersService.upsert({
               first_name: profile.name.givenName,
               last_name: profile.name.familyName,
@@ -46,7 +39,7 @@ export class AuthService {
                 provider
             }
 
-            const jwt: string = sign(payload, this.JWT_SECRET_KEY, { expiresIn: 3600*48 });
+            const jwt: string = this.jwtService.sign(payload, { expiresIn: 10 });
             return jwt;
         }
         catch (err)
