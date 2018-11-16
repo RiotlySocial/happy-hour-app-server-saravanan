@@ -39,7 +39,7 @@ export class AuthService {
                 provider
             }
 
-            const jwt: string = this.jwtService.sign(payload, { expiresIn: 10 });
+            const jwt: string = this.jwtService.sign(payload, { expiresIn: 3600*24*7 });
             return jwt;
         }
         catch (err)
