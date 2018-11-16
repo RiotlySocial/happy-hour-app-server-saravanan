@@ -23,7 +23,7 @@ export class TableService {
   async removeMemberFromTable(userId, tableId): Promise<Table> {
     return await this.tableModel.update({'_id': tableId}, {$pull: { 'members': userId }}).exec();
   }
-  async searchByMembers(userIds): Promise<Table> {
-    return await this.tableModel.findOne({members: {$in: userIds}}).populate({path: 'members', select:'first_name last_name avatar'}).exec();
+  async searchByMembers(userIds): Promise<Table[]> {
+    return await this.tableModel.find({members: {$in: userIds}}).populate({path: 'members', select:'first_name last_name avatar'}).lean().exec();
   }
 }

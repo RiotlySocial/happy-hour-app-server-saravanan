@@ -30,7 +30,7 @@ export class AuthService {
             
             // if (!user)
                 // user = await this.usersService.registerOAuthUser(thirdPartyId, provider);
-            const user = await this.usersService.create({
+            const user = await this.usersService.upsert({
               first_name: profile.name.givenName,
               last_name: profile.name.familyName,
               email: (profile.emails && profile.emails[0].value),

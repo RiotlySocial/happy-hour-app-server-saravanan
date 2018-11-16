@@ -12,7 +12,13 @@ export class UsersService {
     const createdUser = new this.userModel(createUserDto);
     return await createdUser.save();
   }
-  
+  async upsert(createUserDto: CreateUsersDto): Promise<Users> {
+    return await this.userModel.findOneAndUpdate(
+        { uid: createUserDto.uid, provider: createUserDto.provider }, 
+        createUserDto, 
+        { upsert: true, new: true }
+      ).exec();
+  }
   async findAll(): Promise<Users[]> {
     return await this.userModel.find().exec();
   }

@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Param, UseGuards, Req, Res } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { CreateTableDto } from './create-table.dto';
 import { TableService } from './table.service';
 import { Table } from './table.interface';
@@ -56,14 +57,23 @@ export class TableController {
     @Get('search/:search')
     @UseGuards(AuthGuard('jwt'))
     async searchUser(@Req() req, @Res() res, @Param('search') searchQuery) {
+      if(!searchQuery){
+        res.json({members: [], _id: null});
+        return;
+      }
       // Get users matching search query
       let users = await this.usersService.search(searchQuery);
       //Get only _ids
       const userIds = users.map(user => {
-        return user._id;
+        return user._id.toString();
       })
-      // Find table in which user is in
-      let table = await this.tableService.searchByMembers(userIds);
-      res.json(table);
+      // Find tables in which users are in
+      let tables = await this.tableService.searchByMembers(userIds);
+      const result = tables.map(table => {
+        const matches = table.members.filter(member => {const userId:Types.ObjectId = member['_id'];return (userIds.indexOf(userId.toString()) > -1)});
+        const members = table.members.filter(member => {const userId:Types.ObjectId = member['_id'];return (userIds.indexOf(userId.toString()) === -1)});
+        return {matches, members, _id: table['_id']};
+      });
+      res.json(result);
     }
 }
